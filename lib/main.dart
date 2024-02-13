@@ -1,4 +1,3 @@
-import "package:first_flutter_app/pages/B.dart";
 import "package:flutter/material.dart";
 
 void main() => runApp(MyApp());
@@ -15,14 +14,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
+bool _agree =true;
+
 class Starter extends StatefulWidget {
   const Starter({super.key});
 
   @override
-  State<Starter> createState() => _StarterState();
+  State<Starter> createState() => StarterState();
 }
 
-class _StarterState extends State<Starter> {
+
+class StarterState extends State<Starter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,22 +33,53 @@ class _StarterState extends State<Starter> {
           mainAxisAlignment: MainAxisAlignment.center,
           children:<Widget>[
           Text("Homepage"),
-          changeView(context),
+          alertD(context),
+          SizedBox(height:20,),
+          Text(
+            _agree ? "Yes" : "No",
+            ),  
           ],
         )
       ),
     );
   }
+
+
+Widget alertD(context){
+  return ElevatedButton(
+    child:Text("Agree?"),
+    onPressed:()=>{_showAlert(context)},
+  );
 }
 
-Widget changeView(context){
-  return ElevatedButton(
-    child:Text("Go To B"),
-    onPressed: ()=>{
-      Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context)=>BWidget())
-      )
-    }
-  );
+void _showAlert(BuildContext context){
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        title:Text("Hi"),
+        content: Text("this is an alert"),
+        actions: [
+          TextButton(child: Text("Si"),onPressed: () =>{
+            Navigator.pop(context),
+             setState((){
+            _agree = true;
+            }),
+          },
+          ),
+          TextButton(child: Text("No"),onPressed: () =>{
+            Navigator.pop(context),
+            setState((){
+            _agree = false;
+            }),
+          },
+          
+          ),
+        ],
+        ); 
+      }, 
+    );
+}
+
 }
